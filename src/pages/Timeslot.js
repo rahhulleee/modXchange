@@ -30,6 +30,7 @@ function Timeslot() {
         setTimeslots(data.timetable);
       } catch (error) {
         console.error('Error fetching timeslots:', error);
+        console.log("hello");
       }
 
       setLoading(false);

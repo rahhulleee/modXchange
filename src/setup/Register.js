@@ -1,8 +1,10 @@
-// src/setup/Register.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase-config';
+import './Register.css';
+import backgroundImage from '../images/calculator.png';
+
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -14,41 +16,51 @@ function Register() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       alert('Account created successfully!');
-      navigate('/login'); // Redirect to login page
+      navigate('/login');
     } catch (error) {
       alert('Error during account creation: ' + error.message);
     }
   };
 
+  const sectionStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+
+  
   return (
-    <div className="Register" style={{ textAlign: 'center', marginTop: '100px' }}>
+    <div style={sectionStyle}>
       <h1>Register</h1>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Email:</label><br />
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div><br />
-        <div>
-          <label>Password:</label><br />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div><br />
-        <button type="submit">Register</button>
+      <form onSubmit={handleRegister} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <input
+          className="inputField"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          className="inputField"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" className="button">Register</button>
+        <button onClick={() => navigate('/login')} className="button">Login Now</button>
       </form>
-      <button onClick={() => navigate('/login')} style={{ display: 'block', marginTop: '20px' }}>
-        Login Now
-      </button>
     </div>
   );
 }
 
 export default Register;
+
